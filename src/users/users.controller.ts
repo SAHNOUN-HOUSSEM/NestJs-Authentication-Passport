@@ -1,24 +1,33 @@
-import { Controller, Get, Param } from '@nestjs/common';
+import { Controller, Get, Ip, Param } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { SkipThrottle } from '@nestjs/throttler';
+import { MyLogger } from 'src/my-logger/my-logger.service';
 
 @SkipThrottle()
 @Controller('users')
 export class UsersController {
     constructor(
         private readonly usersService: UsersService,
-    ) { }
+        private readonly logger: MyLogger
+    ) {
+        this.logger.setContext(UsersController.name);
+    }
 
     @Get()
-    async index() {
+    async index(
+        @Ip() ip: string
+    ) {
+        this.logger.log(`Request for ALL Users\t${ip}`, UsersController.name)
         return this.usersService.index();
     }
 
     @SkipThrottle({ default: false })
     @Get(':id')
     async details(
-        @Param("id") id: string
+        @Param("id") id: string,
+        @Ip() ip: string
     ) {
+        this.logger.log(`Request for Single Users\t${ip}`, UsersController.name)
         return this.usersService.details(id);
     }
 }

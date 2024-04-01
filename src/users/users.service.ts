@@ -15,8 +15,6 @@ export class UsersService {
         return this.userModel.find()
     }
 
-
-
     async details(id: string) {
         const user = await this.userModel.findById(id)
         if (!user)
