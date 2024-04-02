@@ -3,15 +3,14 @@ import * as fs from 'fs';
 import { promises as fsPromises } from 'fs'
 import * as path from 'path'
 
-// @Injectable({ scope: Scope.TRANSIENT })
 @Injectable()
-export class MyLogger extends ConsoleLogger {
+export class MyLoggerService extends ConsoleLogger {
     async logToFile(entry) {
         const formattedEntry = `${Intl.DateTimeFormat('en-US', {
             dateStyle: 'short',
             timeStyle: 'short',
-            timeZone: 'America/Chicago',
-        }).format(new Date())}\t${entry}\n`
+            timeZone: 'Africa/Tunis',
+        }).format(new Date())}\t${entry}\n`;
 
         try {
             if (!fs.existsSync(path.join(__dirname, '..', '..', 'logs'))) {
@@ -24,10 +23,9 @@ export class MyLogger extends ConsoleLogger {
     }
 
     log(message: any, context?: string) {
+
         const entry = `${context}\t${message}`
         this.logToFile(entry)
-        console.log("log");
-
         super.log(message, context)
     }
 

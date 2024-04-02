@@ -39,8 +39,6 @@ export class AuthController {
     ) {
         const { userId, refreshTokenId } = this.authService.decodeRefreshToken(oldRefreshToken);
 
-
-
         const newAccessToken = await this.authService.createAccessToken(userId);
         const newRefreshToken = await this.authService.createRefreshToken(userId);
 

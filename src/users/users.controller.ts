@@ -1,14 +1,14 @@
 import { Controller, Get, Ip, Param } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { SkipThrottle } from '@nestjs/throttler';
-import { MyLogger } from 'src/my-logger/my-logger.service';
+import { MyLoggerService } from 'src/my-logger/my-logger.service';
 
 @SkipThrottle()
 @Controller('users')
 export class UsersController {
     constructor(
         private readonly usersService: UsersService,
-        private readonly logger: MyLogger
+        private logger: MyLoggerService
     ) {
         this.logger.setContext(UsersController.name);
     }
